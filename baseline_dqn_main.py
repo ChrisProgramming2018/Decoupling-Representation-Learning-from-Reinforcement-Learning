@@ -21,6 +21,7 @@ from tracker import ProgressTracker
 from stable_baselines3 import DQN
 from extended_dqn import EDQN, DDQN
 from utils import set_seed
+from stable_baselines3.common.utils import set_random_seed
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ def create_model(cfg, env) -> BaseAlgorithm:
 
 def create_env(cfg, rec_callbacks=None, writer=None, eval_env=False, monitor=True):
     env = instantiate(cfg.env)
-    
+    env.seed(cfg.seed)
     env = Monitor(env)
      
     env = ProgressTracker(
@@ -51,6 +52,7 @@ def create_env(cfg, rec_callbacks=None, writer=None, eval_env=False, monitor=Tru
 
 @hydra.main(config_path="config", config_name="stable_train")
 def main(cfg):
+    set_random_seed(cfg.seed)
     set_seed(cfg.seed)
     cfg.model.device = "cpu"
     # import pdb; pdb.set_trace()
@@ -66,7 +68,6 @@ def main(cfg):
             job_type= "{}".format(cfg.model.alg)
         )
 
-    #import pdb; pdb.set_trace()
     logpath = Path.cwd()
     logger.info(f"Experiment path: {logpath}")
     stb3_logger = configure(str(logpath / "tensorboard"), ["tensorboard", "csv"])
