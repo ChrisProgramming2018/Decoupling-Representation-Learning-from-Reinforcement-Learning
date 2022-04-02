@@ -1,0 +1,22 @@
+program: train_representation.py
+method: bayes
+metric:
+  name: validation_loss
+  goal: minimize
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  nodes_per_layer:
+    min: 64
+    max: 128
+  layers:
+    min: 2
+    max: 4
+  batch_size:
+    min: 32
+    max: 512
+  tau:
+    min: 0.001
+    max: 0.005
+

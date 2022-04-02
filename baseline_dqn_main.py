@@ -25,6 +25,7 @@ from stable_baselines3.common.utils import set_random_seed
 
 logger = logging.getLogger(__name__)
 
+
 def create_model(cfg, env) -> BaseAlgorithm:
     model_cls_map = {"DQN": DQN, "EDQN": EDQN, "DDQN": DDQN}
     model_cls = model_cls_map[cfg.model.alg]
