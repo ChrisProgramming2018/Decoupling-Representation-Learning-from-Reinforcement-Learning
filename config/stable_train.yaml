@@ -1,0 +1,52 @@
+defaults:
+  - _self_  # Stuff from this file will be overwritten by the selected defaults.
+  - model: DDQN 
+  - env: lunar_lander
+  - eval: often
+  - wandb: "normal"
+  - sweep: 
+  - override hydra/launcher: joblib  # This is to parallelize jobs in multirun.
+
+
+net:
+  depth: 2
+  width: 64 
+
+model:
+  verbose: 3
+  device: ${assign_device:${hydra:job.num} , ${devices}}
+
+
+  #  A list of all cuda devices we are allowed to use
+devices: [0,1,2,3,4,5,6,7]
+
+name: ${now:%H-%M-%S}
+logpath: ${env:EXPERIMENT_PATH}/${now:%Y-%m-%d}/${name}
+
+ckpt_freq: null
+
+seed: 0
+
+tracker:
+  num_evals: 3
+  num_plots: 1
+
+learn:
+  total_timesteps: 1000000
+  n_eval_episodes: ${tracker.num_evals}
+
+hydra:
+  run:
+    dir: ${logpath}
+  sweep:
+    dir: ${logpath}
+    subdir: ${hydra.job.num}
+  job:
+    num: 0
+  launcher:
+    # This now works with different gpus (using assign_device resolver)
+    n_jobs: 30  # number of parallel jobs
+
+
+
+ 

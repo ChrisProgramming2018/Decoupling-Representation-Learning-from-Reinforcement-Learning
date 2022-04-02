@@ -1,0 +1,12 @@
+alg: EDQN
+
+model:
+  # _target_: cutin_policy.extended_dqn.EDQN
+  policy: DuellingMlpPolicy
+  learning_rate: 3e-4
+  exploration_initial_eps: 0.05
+  exploration_final_eps: 0.05
+  tau: 0.005
+  target_update_interval: 1
+  gamma: 0.99
+  learning_starts: 10

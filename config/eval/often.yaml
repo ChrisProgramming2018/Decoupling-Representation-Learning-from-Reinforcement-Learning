@@ -1,0 +1,4 @@
+# @package _global_
+learn:
+  eval_freq: 20000
+

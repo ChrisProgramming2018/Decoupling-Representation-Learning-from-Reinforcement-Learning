@@ -1,0 +1,14 @@
+
+alg: DQN
+
+model:
+  policy: MlpPolicy
+  learning_rate: 5e-4
+  buffer_size: 1000000
+  tau: 1e-3
+  gamma: 0.99
+  batch_size: 64
+  target_update_interval: 1
+  learning_starts: 1000
+  train_freq: 1
+  verbose: 1
