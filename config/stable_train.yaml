@@ -1,6 +1,6 @@
 defaults:
   - _self_  # Stuff from this file will be overwritten by the selected defaults.
-  - model: DDQN 
+  - model: DQN 
   - env: lunar_lander
   - eval: often
   - wandb: "normal"

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 from torch.utils.tensorboard import SummaryWriter    
+from collections import namedtuple, deque
 
 class ProgressTracker(Wrapper):
     def __init__(
@@ -29,7 +30,7 @@ class ProgressTracker(Wrapper):
 
         # Add plot callbacks of the environment.
         plt_list.append("env")
-
+        self.scores_window = deque(maxlen=100)
     
         self.rec_callback = rec_callback
 
@@ -67,10 +68,11 @@ class ProgressTracker(Wrapper):
         self.episode_reward += reward
             
         if done:
+            self.scores_window.append(self.episode_reward)
+            mean_reward= np.mean(self.scores_window)
             self.writer.add_scalar('eval_reward', self.episode_reward, self.episode_counter)
+            self.writer.add_scalar('eval_mean_reward', mean_reward, self.episode_counter)
             self.episode_counter += 1
-            
-
         return obs, reward, done, info
 
 

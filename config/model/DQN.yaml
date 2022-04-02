@@ -11,4 +11,5 @@ model:
   target_update_interval: 1
   learning_starts: 1000
   train_freq: 1
+  seed: 0
   verbose: 1
